@@ -1,3 +1,0 @@
-/Users/sanaaaa/Projects/s4/build/CMakeFiles/rebuild_cache.dir
-/Users/sanaaaa/Projects/s4/build/CMakeFiles/edit_cache.dir
-/Users/sanaaaa/Projects/s4/build/CMakeFiles/s4.dir
