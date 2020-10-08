@@ -11,11 +11,12 @@ int main(void) {
   unsigned int program, texture;
   s4_vector3f model_pos;
   s4_vector3f rot_axis;
+  s4_matrix4f proj;
   s4_matrix4f rot;
   s4_matrix4f model;
   struct s4_input input;
   struct s4_settings settings;
-  struct s4_player player;
+  struct s4_camera camera;
   struct s4_vertex_object_data vo;
   struct s4_window window;
 
@@ -78,10 +79,14 @@ int main(void) {
   settings.height_ratio = 1.0f;
   settings.render_distance = 100.0f;
 
-  s4_math_vector3_set(0.0f, 0.0f, 0.0f, player.pos);
-  s4_math_vector3_set(0.0f, 0.0f, 3.0f, player.camera.pos);
-  s4_math_vector3_set(0.0f, 1.0f, 0.0f, player.camera.up);
-  s4_player_set_base_perspective(0.0f, 0.0f, &settings, &player);
+  s4_math_vector3_set(0.0f, 1.0f, 0.0f, camera.up);
+  s4_math_vector3_set(0.0f, 0.0f, 3.0f, camera.pos);
+  s4_math_perspective(
+      settings.fov, (float)settings.width_ratio / (float)settings.height_ratio,
+      S4_COMMON_DEFAULT_NEAR, S4_COMMON_DEFAULT_NEAR + settings.render_distance,
+      proj);
+
+  s4_camera_look(0.0f, 0.0f, &camera);
 
   s4_renderer_load_shader(1, 1, &program);
   s4_renderer_load_vertex_data(GL_STATIC_DRAW, GL_TRIANGLES, vertices,
@@ -91,9 +96,9 @@ int main(void) {
 
   glUseProgram(program);
   glUniformMatrix4fv(glGetUniformLocation(program, "projection"), 1, GL_FALSE,
-                     &player.projection[0][0]);
+                     &proj[0][0]);
   glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_FALSE,
-                     &player.camera.view[0][0]);
+                     &camera.view[0][0]);
   glUniform1i(glGetUniformLocation(program, "tex"), 0);
   glUniform2f(glGetUniformLocation(program, "tex_offset"), 0.0f, 0.0f);
 

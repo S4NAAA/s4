@@ -12,9 +12,9 @@ extern "C"
 #define S4_MATH_DEG_TO_RAD_CONSTANT 0.01745329252
 #define S4_MATH_RAD_TO_DEG_CONSTANT 57.2957795131
 
-#define s4_math_deg_to_rad(v) (v *S4_MATH_DEG_TO_RAD_CONSTANT)
+#define s4_math_deg_to_rad(v) (v * S4_MATH_DEG_TO_RAD_CONSTANT)
 
-#define s4_math_rad_to_deg(v) (v *S4_MATH_RAD_TO_DEG_CONSTANT)
+#define s4_math_rad_to_deg(v) (v * S4_MATH_RAD_TO_DEG_CONSTANT)
 
 #define s4_math_vector3_set(f0, f1, f2, out) \
   do {                                       \
