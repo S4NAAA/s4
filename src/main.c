@@ -1,9 +1,7 @@
 #include "s4_camera.h"
 #include "s4_common.h"
-#include "s4_debug.h"
 #include "s4_input.h"
 #include "s4_math.h"
-#include "s4_player.h"
 #include "s4_renderer.h"
 
 int main(void) {

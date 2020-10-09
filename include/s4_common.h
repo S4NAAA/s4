@@ -66,12 +66,6 @@ struct s4_camera {
   s4_matrix4f view;
 };
 
-struct s4_player {
-  s4_vector3f pos;
-  s4_matrix4f projection;
-  struct s4_camera camera;
-};
-
 struct s4_settings {
   float fov;
   float width_ratio;
