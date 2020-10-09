@@ -38,19 +38,6 @@ struct s4_window {
   const char *title;
 };
 
-/* clang-format off */
-/*
-struct s4_renderer_data {
-  unsigned int program;
-  unsigned int size;
-  unsigned int* vertices_size;
-  unsigned int* vao;
-  unsigned int* vbo;
-  int* mode;
-};
-*/
-/* clang-format on */
-
 struct s4_vertex_object_data {
   unsigned int vertices_size;
   unsigned int slice_size;
@@ -77,12 +64,6 @@ struct s4_input {
   double x_cursor_pos;
   double y_cursor_pos;
   int esc_state;
-};
-
-struct s4_background {
-  struct s4_vertex_object_data vd;
-  float x_offset;
-  float y_offset;
 };
 
 #ifdef __cplusplus
