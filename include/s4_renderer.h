@@ -16,7 +16,7 @@ extern void s4_renderer_load_shader(unsigned int vertex_shader,
                                     unsigned int fragment_shader,
                                     unsigned int *program);
 
-xtern void s4_renderer_load_texture(const char *path, unsigned int *id);
+extern void s4_renderer_load_texture(const char *path, unsigned int *id);
 
 extern void s4_renderer_draw(struct s4_vertex_object_data *data);
 
