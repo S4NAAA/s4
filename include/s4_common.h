@@ -7,7 +7,6 @@ extern "C" {
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -65,6 +64,18 @@ struct s4_input {
   double y_cursor_pos;
   int esc_state;
 };
+
+struct s4_vertex_object_draw_data {
+  unsigned int vao;
+  unsigned int vbo;
+  unsigned int vertices_size;
+  unsigned int mode;
+}
+
+struct s4_vertex_object_buffer_data {
+  unsigned int vbo;
+  unsigned int slice_size;
+}
 
 #ifdef __cplusplus
 }

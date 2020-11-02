@@ -50,6 +50,11 @@ failed_loading:
   return 0;
 }
 
+/*
+ * TODO: Refactor for a per vertex object shader system
+ *       Add uniform "setters" when the shader system is done
+ */
+
 void s4_renderer_load_shader(unsigned int vertex_shader,
                              unsigned int fragment_shader,
                              unsigned int *program) {
@@ -120,6 +125,10 @@ fail_fragment:
 fail_vertex:
   return;
 }
+
+/*
+ * TODO: Refactor method for the vertex object pool system
+ */
 
 void s4_renderer_load_texture(const char *path, unsigned int *id) {
   unsigned int error, width, height;

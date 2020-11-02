@@ -4,6 +4,10 @@
 #include "s4_math.h"
 #include "s4_renderer.h"
 
+/* 
+ * TODO: Make a good example when the vertex object pool system is done
+ */
+
 int main(void) {
   int step;
   unsigned int program, texture;
