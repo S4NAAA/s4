@@ -146,8 +146,8 @@ void s4_math_vector3f_normalize(s4_vector3f v, s4_vector3f out) {
   out[2] = v[2] / mag;
 }
 
-void s4_math_create_dir(float pitch, float yaw, s4_vector3f up,
-                        s4_vector3f dir) {
+void s4_math_find_dir(float pitch, float yaw, s4_vector3f up,
+                      s4_vector3f dir) {
   s4_vector4f side, new_dir;
   s4_matrix4f rotation1, rotation2;
 

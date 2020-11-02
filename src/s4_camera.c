@@ -21,6 +21,6 @@
    }*/
 
 void s4_camera_look(float pitch, float yaw, struct s4_camera *camera) {
-  s4_math_create_dir(pitch, yaw, camera->up, camera->dir);
+  s4_math_find_dir(pitch, yaw, camera->up, camera->dir);
   s4_math_look(camera->pos, camera->dir, camera->up, camera->view);
 }

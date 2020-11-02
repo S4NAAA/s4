@@ -114,8 +114,8 @@ extern void s4_math_vector3f_cross(s4_vector3f v1, s4_vector3f v2,
 extern void s4_math_matrix4f_mul_vector4f(s4_matrix4f m, s4_vector4f v,
                                           s4_vector4f out);
 
-extern void s4_math_create_dir(float pitch, float yaw, s4_vector3f up,
-                               s4_vector3f dir);
+extern void s4_math_find_dir(float pitch, float yaw, s4_vector3f up,
+                             s4_vector3f dir);
 
 extern void s4_math_look(s4_vector3f eye, s4_vector3f dir, s4_vector3f up,
                          s4_matrix4f out);
