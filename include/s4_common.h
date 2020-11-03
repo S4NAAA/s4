@@ -66,20 +66,15 @@ struct s4_input {
   int esc_state;
 };
 
-/*
- * TODO: Implement pool system
- */
-
-struct s4_vertex_object_draw_data {
+struct s4_vertex_object_draw_info {
   unsigned int vao;
   unsigned int ebo;
   unsigned int indices_size;
   unsigned int mode;
 };
 
-struct s4_vertex_object_buffer_data {
+struct s4_vertex_object_buffer_info {
   unsigned int vbo;
-  unsigned int slice_size;
 };
 
 #ifdef __cplusplus

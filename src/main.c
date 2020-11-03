@@ -24,7 +24,7 @@ int main(void) {
   /*struct s4_vertex_object_data vo;*/
   struct s4_window window;
 
-  unsigned int sizes[] = {3, 2};
+  unsigned int layout[] = {3, 2};
 
   float vertices[] = {
       /* clang-format off */
@@ -89,7 +89,7 @@ int main(void) {
   vo = s4_vertex_object_pool_add(GL_STATIC_DRAW, GL_TRIANGLES, vertices,
                                  sizeof(vertices) / sizeof(vertices[0]),
                                  indices, sizeof(indices) / sizeof(indices[0]),
-                                 sizes, sizeof(sizes) / sizeof(sizes[0]));
+                                 layout, sizeof(layout) / sizeof(layout[0]));
 
   s4_renderer_load_texture("../../sprites/chaeyoung.png", &texture);
 
@@ -128,7 +128,7 @@ int main(void) {
     glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE,
                        &model[0][0]);
 
-    s4_vertex_object_pool_draw_all();
+    s4_vertex_object_pool_draw(vo);
 
     glfwSwapBuffers(window.gl_data);
     glfwPollEvents();

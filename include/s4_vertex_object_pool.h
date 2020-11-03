@@ -7,11 +7,11 @@ extern "C" {
 
 #include "s4_common.h"
 
-#define S4_VERTEX_OBJECT_POOL_MAX 8
+#define S4_VERTEX_OBJECT_POOL_MAX 32
 
 struct s4_vertex_object_pool {
-  struct s4_vertex_object_draw_data draw_data[S4_VERTEX_OBJECT_POOL_MAX];
-  struct s4_vertex_object_buffer_data buffer_data[S4_VERTEX_OBJECT_POOL_MAX];
+  struct s4_vertex_object_draw_info draw_info[S4_VERTEX_OBJECT_POOL_MAX];
+  struct s4_vertex_object_buffer_info buffer_info[S4_VERTEX_OBJECT_POOL_MAX];
   /*
    * TODO: add deleting and adding capabilities
    *
@@ -22,12 +22,12 @@ struct s4_vertex_object_pool {
 extern unsigned int s4_vertex_object_pool_add(
     unsigned int draw_type, unsigned int mode, float *vertices,
     unsigned int vertices_size, unsigned int *indeces,
-    unsigned int indices_size, unsigned int *sizes, unsigned int sizes_size);
+    unsigned int indices_size, unsigned int *layout, unsigned int layout_size);
 
 extern void s4_vertex_object_pool_update_vertices(float *vertices,
                                                   unsigned int vertices_size,
-                                                  unsigned int *sizes,
-                                                  unsigned int sizes_size,
+                                                  unsigned int *layout,
+                                                  unsigned int layout_size,
                                                   unsigned int i);
 
 extern void s4_vertex_object_pool_update_indices(unsigned int *indices,
@@ -36,6 +36,8 @@ extern void s4_vertex_object_pool_update_indices(unsigned int *indices,
 
 extern void s4_vertex_object_pool_update_mode(unsigned int mode,
                                               unsigned int i);
+
+extern void s4_vertex_object_pool_draw(unsigned int i);
 
 extern void s4_vertex_object_pool_draw_all(void);
 
