@@ -9,6 +9,17 @@ extern "C" {
 
 #define S4_VERTEX_OBJECT_POOL_MAX 32
 
+struct s4_vertex_object_draw_info {
+  unsigned int vao;
+  unsigned int ebo;
+  unsigned int indices_size;
+  unsigned int mode;
+};
+
+struct s4_vertex_object_buffer_info {
+  unsigned int vbo;
+};
+
 struct s4_vertex_object_pool {
   struct s4_vertex_object_draw_info draw_info[S4_VERTEX_OBJECT_POOL_MAX];
   struct s4_vertex_object_buffer_info buffer_info[S4_VERTEX_OBJECT_POOL_MAX];

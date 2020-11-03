@@ -21,54 +21,7 @@ void s4_math_matrix4f_identity(s4_matrix4f out) {
   out[3][2] = 0.0f;
   out[3][3] = 1.0f;
 }
-/*
-void s4_math_vector3f_set( float f0, float f1, float f2,
-        s4_vector3f out ) {
-    out[ 0 ] = f0; out[ 1 ] = f1; out[ 2 ] = f2;
-}
 
-void s4_math_vector4f_set( float f0, float f1, float f2, float f3,
-        s4_vector3f out ) {
-    out[ 0 ] = f0; out[ 1 ] = f1; out[ 2 ] = f2;
-    out[ 3 ] = f3;
-}
-
-
-void s4_math_vector3f_copy( s4_vector3f in, s4_vector3f out ) {
-    out[ 0 ] = in[ 0 ]; out[ 1 ] = in[ 1 ]; out[ 2 ] = in[ 2 ];
-    // memcpy( &in[ 0 ], &out[ 0 ], 3 * sizeof( float ) );
-}
-
-void s4_math_vector4f_copy( s4_vector4f in, s4_vector4f out ) {
-    out[ 0 ] = in[ 0 ]; out[ 1 ] = in[ 1 ]; out[ 2 ] = in[ 2 ];
-    out[ 3 ] = in[ 3 ];
-}
-
-void s4_math_matrix3f_copy( s4_matrix3f in, s4_matrix3f out ) {
-    out[ 0 ][ 0 ] = in[ 0 ][ 0 ]; out[ 0 ][ 1 ] = in[ 0 ][ 1 ];
-    out[ 0 ][ 2 ] = in[ 0 ][ 2 ];
-
-    out[ 1 ][ 0 ] = in[ 1 ][ 0 ]; out[ 1 ][ 1 ] = in[ 1 ][ 1 ];
-    out[ 1 ][ 2 ] = in[ 1 ][ 2 ];
-
-    out[ 2 ][ 0 ] = in[ 2 ][ 0 ]; out[ 2 ][ 1 ] = in[ 2 ][ 1 ];
-    out[ 2 ][ 2 ] = in[ 2 ][ 2 ];
-}
-
-void s4_math_matrix4f_copy( s4_matrix4f in, s4_matrix4f out ) {
-    out[ 0 ][ 0 ] = in[ 0 ][ 0 ]; out[ 0 ][ 1 ] = in[ 0 ][ 1 ];
-    out[ 0 ][ 2 ] = in[ 0 ][ 2 ]; out[ 0 ][ 3 ] = in[ 0 ][ 3 ];
-
-    out[ 1 ][ 0 ] = in[ 1 ][ 0 ]; out[ 1 ][ 1 ] = in[ 1 ][ 1 ];
-    out[ 1 ][ 2 ] = in[ 1 ][ 2 ]; out[ 1 ][ 3 ] = in[ 1 ][ 3 ];
-
-    out[ 2 ][ 0 ] = in[ 2 ][ 0 ]; out[ 2 ][ 1 ] = in[ 2 ][ 1 ];
-    out[ 2 ][ 2 ] = in[ 2 ][ 2 ]; out[ 2 ][ 3 ] = in[ 2 ][ 3 ];
-
-    out[ 3 ][ 0 ] = in[ 3 ][ 0 ]; out[ 3 ][ 1 ] = in[ 3 ][ 1 ];
-    out[ 3 ][ 2 ] = in[ 3 ][ 2 ]; out[ 3 ][ 3 ] = in[ 3 ][ 3 ];
-}
-*/
 void s4_math_vector3f_scale(s4_vector3f v, float s, s4_vector3f out) {
   out[0] = s * v[0];
   out[1] = s * v[1];
@@ -100,11 +53,6 @@ void s4_math_vector3f_sub(s4_vector3f v1, s4_vector3f v2, s4_vector3f out) {
   out[1] = v1[1] - v2[1];
   out[2] = v1[2] - v2[2];
 }
-/*
- *float s4_math_vector3f_dot(s4_vector3f v1, s4_vector3f v2) {
- *  return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
- *}
- */
 
 void s4_math_vector3f_cross(s4_vector3f v1, s4_vector3f v2, s4_vector3f out) {
   s4_vector3f tmp1, tmp2;

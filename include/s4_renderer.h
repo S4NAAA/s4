@@ -18,20 +18,6 @@ extern void s4_renderer_load_shader(unsigned int vertex_shader,
 
 extern void s4_renderer_load_texture(const char *path, unsigned int *id);
 
-extern void s4_renderer_draw(struct s4_vertex_object_data *data);
-
-extern void s4_renderer_load_vertex_data(unsigned int draw_type,
-                                         unsigned int mode, float *vertices,
-                                         unsigned int vertices_size,
-                                         unsigned int *sizes,
-                                         unsigned int sizes_size,
-                                         struct s4_vertex_object_data *data);
-
-extern void s4_renderer_free_vertex_data(struct s4_vertex_object_data *data);
-
-#define S4_RENDERER_BACKGROUND_STRIDE \
-  { 3, 2 }
-
 #define S4_RENDERER_BACKGROUND_VERTICES                                        \
   {                                                                            \
     -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, \

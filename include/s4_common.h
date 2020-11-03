@@ -38,43 +38,10 @@ struct s4_window {
   const char *title;
 };
 
-struct s4_vertex_object_data {
-  unsigned int vertices_size;
-  unsigned int slice_size;
-  unsigned int vao;
-  unsigned int vbo;
-  int mode;
-};
-
-struct s4_camera {
-  s4_vector3f pos;
-  s4_vector3f up;
-  s4_vector4f dir;
-  s4_matrix4f view;
-};
-
-struct s4_settings {
-  float fov;
-  float width_ratio;
-  float height_ratio;
-  float render_distance;
-};
-
 struct s4_input {
   double x_cursor_pos;
   double y_cursor_pos;
   int esc_state;
-};
-
-struct s4_vertex_object_draw_info {
-  unsigned int vao;
-  unsigned int ebo;
-  unsigned int indices_size;
-  unsigned int mode;
-};
-
-struct s4_vertex_object_buffer_info {
-  unsigned int vbo;
 };
 
 #ifdef __cplusplus

@@ -42,6 +42,7 @@ int s4_renderer_init(unsigned int width, unsigned int height, const char *title,
 
   glfwSetFramebufferSizeCallback(window->gl_data, s_s4_framebuffer_callback);
   glEnable(GL_DEPTH_TEST);
+  glfwSwapInterval(1);
 
   return 1;
 
