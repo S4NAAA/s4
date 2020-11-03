@@ -19,7 +19,6 @@ int main(void) {
   s4_matrix4f projection;
   s4_matrix4f view;
   s4_matrix4f model;
-  s4_matrix4f rot;
   struct s4_input input;
   struct s4_window window;
 
@@ -75,13 +74,11 @@ int main(void) {
   }
 
   s4_math_perspective(
-      s4_math_deg_to_rad(70.0f), (float)window.width / (float)window.height,
+      s4_math_deg_to_rad(90.0f), (float)window.width / (float)window.height,
       S4_COMMON_DEFAULT_NEAR, S4_COMMON_DEFAULT_NEAR + 100, projection);
 
 
-  s4_math_matrix4f_identity(view);
   s4_math_look(pos, center, up, view);
-
 
   s4_math_matrix4f_identity(model);
 
@@ -118,9 +115,7 @@ int main(void) {
     /*glClearColor(0.0f, 0.0f, 0.0f, 1.0f);*/
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    s4_math_matrix4f_identity(model);
-    s4_math_make_rotate_matrix(step * 0.02f, rot_axis, rot);
-    s4_math_mult_rotation(model, rot, model);
+    s4_math_make_rotate_matrix(step * 0.02f, rot_axis, model);
 
     glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE,
                        &model[0][0]);
@@ -131,7 +126,7 @@ int main(void) {
     glfwPollEvents();
   }
 
-  s4_vertex_object_pool_delete_all();
+  s4_vertex_object_pool_delete(vo);
   glDeleteProgram(program);
   glDeleteTextures(1, &texture);
   glfwTerminate();

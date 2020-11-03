@@ -52,6 +52,8 @@ extern void s4_vertex_object_pool_draw(unsigned int i);
 
 extern void s4_vertex_object_pool_draw_all(void);
 
+extern void s4_vertex_object_pool_delete(unsigned int i);
+
 extern void s4_vertex_object_pool_delete_all(void);
 
 #ifdef __cplusplus

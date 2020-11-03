@@ -107,7 +107,7 @@ void s4_vertex_object_pool_draw_all(void) {
  * FIXME: Make a proper delete implementation
  */
 
-static void s4_vertex_object_pool_delete(unsigned int i) {
+void s4_vertex_object_pool_delete(unsigned int i) {
   struct s4_vertex_object_draw_info *draw_info =
       &s_s4_global_vertex_object_pool.draw_info[i];
 
