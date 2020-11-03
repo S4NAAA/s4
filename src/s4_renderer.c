@@ -154,51 +154,6 @@ void s4_renderer_load_texture(const char *path, unsigned int *id) {
   free(image);
 }
 
-void s4_renderer_draw(struct s4_vertex_object_data *data) {
-  glBindVertexArray(data->vao);
-  glDrawArrays(data->mode, 0, data->vertices_size);
-}
-
-void s4_renderer_load_vertex_data(unsigned int draw_type, unsigned int mode,
-                                  float *vertices, unsigned int vertices_size,
-                                  unsigned int *sizes, unsigned int sizes_size,
-                                  struct s4_vertex_object_data *data) {
-  unsigned int i, slice_size, offset, slice_char_size;
-
-  slice_size = 0;
-
-  for (i = 0; i < sizes_size; ++i) slice_size += sizes[i];
-
-  data->vertices_size = vertices_size / slice_size;
-  data->slice_size = slice_size;
-  data->mode = mode;
-
-  glGenVertexArrays(1, &data->vao);
-  glGenBuffers(1, &data->vbo);
-
-  glBindVertexArray(data->vao);
-  glBindBuffer(GL_ARRAY_BUFFER, data->vbo);
-
-  glBufferData(GL_ARRAY_BUFFER, vertices_size * sizeof(float), vertices,
-               draw_type);
-  offset = 0;
-  slice_char_size = slice_size * sizeof(float);
-
-  for (i = 0; i < sizes_size; ++i) {
-    glVertexAttribPointer(i, sizes[i], GL_FLOAT, GL_FALSE, slice_char_size,
-                          (void *)(offset * sizeof(float)));
-    glEnableVertexAttribArray(i);
-    offset += sizes[i];
-  }
-
-  glBindVertexArray(0);
-}
-
-void s4_renderer_free_vertex_data(struct s4_vertex_object_data *data) {
-  glDeleteVertexArrays(1, &data->vao);
-  glDeleteBuffers(1, &data->vbo);
-}
-
 static void s_s4_framebuffer_callback(GLFWwindow *window, int width,
                                       int height) {
   (void)window;

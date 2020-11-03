@@ -5,6 +5,7 @@
 extern "C" {
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -65,17 +66,21 @@ struct s4_input {
   int esc_state;
 };
 
+/*
+ * TODO: Implement pool system
+ */
+
 struct s4_vertex_object_draw_data {
   unsigned int vao;
-  unsigned int vbo;
-  unsigned int vertices_size;
+  unsigned int ebo;
+  unsigned int indices_size;
   unsigned int mode;
-}
+};
 
 struct s4_vertex_object_buffer_data {
   unsigned int vbo;
   unsigned int slice_size;
-}
+};
 
 #ifdef __cplusplus
 }

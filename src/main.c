@@ -3,13 +3,15 @@
 #include "s4_input.h"
 #include "s4_math.h"
 #include "s4_renderer.h"
+#include "s4_vertex_object_pool.h"
 
-/* 
+/*
  * TODO: Make a good example when the vertex object pool system is done
  */
 
 int main(void) {
   int step;
+  unsigned int vo;
   unsigned int program, texture;
   s4_vector3f model_pos;
   s4_vector3f rot_axis;
@@ -19,7 +21,7 @@ int main(void) {
   struct s4_input input;
   struct s4_settings settings;
   struct s4_camera camera;
-  struct s4_vertex_object_data vo;
+  /*struct s4_vertex_object_data vo;*/
   struct s4_window window;
 
   unsigned int sizes[] = {3, 2};
@@ -31,45 +33,37 @@ int main(void) {
       -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
        0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
        0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 
-       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
       -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 
-      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
       -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 
        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 
-       0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
       -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 
-      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
       -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 
       -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
       -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
       -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 
-      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
        0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 
        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
        0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 
-       0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
        0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 
-       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
       -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 
        0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
        0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 
-       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
       -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 
-      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
 
       -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 
        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-      -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f};
+      -0.5f,  0.5f,  0.5f,  0.0f, 0.0f};
   /* clang-format on */
+
+  unsigned int indices[] = {0,  1,  2,  2,  3,  0,  4,  5,  6,  6,  7,  4,
+                            8,  9,  10, 10, 11, 8,  12, 13, 14, 14, 15, 12,
+                            16, 17, 18, 18, 19, 16, 20, 21, 22, 22, 23, 20};
 
   if (!s4_renderer_init(600, 600, "STAN LOONA", &window)) {
     printf("Couldn't initialize renderer\n");
@@ -91,9 +85,12 @@ int main(void) {
   s4_camera_look(0.0f, 0.0f, &camera);
 
   s4_renderer_load_shader(1, 1, &program);
-  s4_renderer_load_vertex_data(GL_STATIC_DRAW, GL_TRIANGLES, vertices,
-                               sizeof(vertices) / sizeof(vertices[0]), sizes,
-                               sizeof(sizes) / sizeof(sizes[0]), &vo);
+
+  vo = s4_vertex_object_pool_add(GL_STATIC_DRAW, GL_TRIANGLES, vertices,
+                                 sizeof(vertices) / sizeof(vertices[0]),
+                                 indices, sizeof(indices) / sizeof(indices[0]),
+                                 sizes, sizeof(sizes) / sizeof(sizes[0]));
+
   s4_renderer_load_texture("../../sprites/chaeyoung.png", &texture);
 
   glUseProgram(program);
@@ -131,13 +128,13 @@ int main(void) {
     glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE,
                        &model[0][0]);
 
-    s4_renderer_draw(&vo);
+    s4_vertex_object_pool_draw_all();
 
     glfwSwapBuffers(window.gl_data);
     glfwPollEvents();
   }
 
-  s4_renderer_free_vertex_data(&vo);
+  s4_vertex_object_pool_delete_all();
   glDeleteProgram(program);
   glDeleteTextures(1, &texture);
   glfwTerminate();
