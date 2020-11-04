@@ -3,4 +3,6 @@ Second try at opengl, tried to write more organized code. I don't have a directi
 
 Only compiles on osx
 
+This draws a cube example, and a surface of plot at the same time
+
 ![Screenshot](images/image.png)
