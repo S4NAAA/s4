@@ -3,7 +3,7 @@
 /* could've had just used a static float pool to upload the vertices */
 #include <stdlib.h>
 
-unsigned int s4_plot_test_get_vertex_object(float x0, float x1, float z0,
+unsigned int s4_plot_test_add_vertex_object(float x0, float x1, float z0,
                                             float z1, unsigned int count,
                                             float (*func)(float, float)) {
   float y0, y1, dx, dz, dif_x, dif_z, dif_y, *vertices;

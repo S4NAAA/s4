@@ -50,7 +50,7 @@ int main(void) {
 
   s4_renderer_load_shader(1, 1, &program);
 
-  vo = s4_plot_test_get_vertex_object(0, 1, 0, 1, 64, &func);
+  vo = s4_plot_test_add_vertex_object(0, 1, 0, 1, 64, &func);
 
   vo_cube = s4_vertex_object_pool_add(
       GL_STATIC_DRAW, GL_TRIANGLES, s_s4_cube_test_vertices,
