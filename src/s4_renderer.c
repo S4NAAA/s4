@@ -1,5 +1,7 @@
 #include "s4_renderer.h"
 
+#include <stdlib.h>
+
 static void s_s4_framebuffer_callback(GLFWwindow *window, int width,
                                       int height);
 
@@ -68,10 +70,7 @@ void s4_renderer_load_shader(unsigned int vertex_shader,
 
   switch (vertex_shader) {
     case S4_SHADERS_VERTEX_1:
-      code = S4_SHADERS_VERTEX_CODE_1;
-      break;
-    case S4_SHADERS_VERTEX_2:
-      code = S4_SHADERS_VERTEX_CODE_2;
+      code = s_s4_shaders_vertex_code_1;
       break;
     default:
       goto fail_vertex;
@@ -90,7 +89,7 @@ void s4_renderer_load_shader(unsigned int vertex_shader,
 
   switch (fragment_shader) {
     case S4_SHADERS_FRAGMENT_1:
-      code = S4_SHADERS_FRAGMENT_CODE_1;
+      code = s_s4_shader_fragment_code_1;
       break;
     default:
       goto fail_fragment;

@@ -7,7 +7,6 @@ extern "C" {
 
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -28,8 +27,6 @@ typedef float s4_vector3f[3];
 typedef float s4_vector4f[4];
 typedef s4_vector3f s4_matrix3f[3];
 typedef s4_vector4f s4_matrix4f[4];
-
-enum s4ypes { S4_TEST, S4_TYPES_AMOUNT };
 
 struct s4_window {
   void *gl_data;

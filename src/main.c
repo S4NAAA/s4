@@ -1,6 +1,9 @@
+#include "math.h"
 #include "s4_common.h"
+#include "s4_cube_test.h"
 #include "s4_input.h"
 #include "s4_math.h"
+#include "s4_plot_test.h"
 #include "s4_renderer.h"
 #include "s4_vertex_object_pool.h"
 
@@ -8,9 +11,11 @@
  * TODO: Make a good example when the vertex object pool system is done
  */
 
+static float func(float x, float z) { return sinf(3.1 * (x * x + z * z)); }
+
 int main(void) {
   int step;
-  unsigned int vo;
+  unsigned int vo, vo_cube;
   unsigned int program, texture;
   s4_vector3f up;
   s4_vector3f rot_axis;
@@ -22,49 +27,8 @@ int main(void) {
   struct s4_input input;
   struct s4_window window;
 
-  unsigned int layout[] = {3, 2};
-
-  float vertices[] = {
-      /* clang-format off */
-/*   |   vertex position  |  texture  |
-*    |  x      y      z   |  x     y  | */
-      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-       0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-       0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 
-      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 
-
-      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 
-       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-       0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 
-      -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 
-
-      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 
-      -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 
-
-       0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 
-       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-       0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 
-       0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 
-
-      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 
-       0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-       0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 
-      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 
-
-      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 
-       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-      -0.5f,  0.5f,  0.5f,  0.0f, 0.0f};
-  /* clang-format on */
-
-  unsigned int indices[] = {0,  1,  2,  2,  3,  0,  4,  5,  6,  6,  7,  4,
-                            8,  9,  10, 10, 11, 8,  12, 13, 14, 14, 15, 12,
-                            16, 17, 18, 18, 19, 16, 20, 21, 22, 22, 23, 20};
-
   s4_math_vector3_set(0.0f, 1.0f, 0.0f, up);
-  s4_math_vector3_set(0.0f, 0.0f, -1.0f, center);
+  s4_math_vector3_set(0.0f, 0.0f, -2.0f, center);
   s4_math_vector3_set(1.412f, 0.0f, 1.412f, rot_axis);
   s4_math_vector3_set(0.0f, 0.0, 3.0f, pos);
 
@@ -77,17 +41,21 @@ int main(void) {
       s4_math_deg_to_rad(90.0f), (float)window.width / (float)window.height,
       S4_COMMON_DEFAULT_NEAR, S4_COMMON_DEFAULT_NEAR + 100, projection);
 
-
   s4_math_look(pos, center, up, view);
 
   s4_math_matrix4f_identity(model);
 
   s4_renderer_load_shader(1, 1, &program);
 
-  vo = s4_vertex_object_pool_add(GL_STATIC_DRAW, GL_TRIANGLES, vertices,
-                                 sizeof(vertices) / sizeof(vertices[0]),
-                                 indices, sizeof(indices) / sizeof(indices[0]),
-                                 layout, sizeof(layout) / sizeof(layout[0]));
+  vo = s4_plot_test_get_vertex_object(0, 1, 0, 1, 64, &func);
+
+  vo_cube = s4_vertex_object_pool_add(
+      GL_STATIC_DRAW, GL_TRIANGLES, s_s4_cube_test_vertices,
+      sizeof(s_s4_cube_test_vertices) / sizeof(s_s4_cube_test_vertices[0]),
+      s_s4_cube_test_indices,
+      sizeof(s_s4_cube_test_indices) / sizeof(s_s4_cube_test_indices[0]),
+      s_s4_cube_test_layout,
+      sizeof(s_s4_cube_test_layout) / sizeof(s_s4_cube_test_layout[0]));
 
   s4_renderer_load_texture("../../sprites/chaeyoung.png", &texture);
 
@@ -121,6 +89,7 @@ int main(void) {
                        &model[0][0]);
 
     s4_vertex_object_pool_draw(vo);
+    s4_vertex_object_pool_draw(vo_cube);
 
     glfwSwapBuffers(window.gl_data);
     glfwPollEvents();

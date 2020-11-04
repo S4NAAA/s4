@@ -30,6 +30,11 @@ struct s4_vertex_object_pool {
    */
 };
 
+/*
+ * FIXME: layout is shader dependent, prob should just be an static array,
+ *        or be implementent in a shader dependent way
+ */
+
 extern unsigned int s4_vertex_object_pool_add(
     unsigned int draw_type, unsigned int mode, float *vertices,
     unsigned int vertices_size, unsigned int *indeces,
