@@ -50,7 +50,7 @@ int main(void) {
 
   s4_renderer_load_shader(1, 1, &program);
 
-  vo = s4_plot_test_add_vertex_object(0, 1, 0, 1, 64, &func);
+  vo = s4_plot_test_add_vertex_object(-1, 1, -1, 1, 64, &func);
 
   vo_cube = s4_vertex_object_pool_add(
       GL_STATIC_DRAW, GL_TRIANGLES, s_s4_cube_test_vertices,
@@ -98,7 +98,7 @@ int main(void) {
     glfwPollEvents();
   }
 
-  s4_vertex_object_pool_delete(vo);
+  s4_vertex_object_pool_delete_all();
   glDeleteProgram(program);
   glDeleteTextures(1, &texture);
   glfwTerminate();

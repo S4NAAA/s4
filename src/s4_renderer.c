@@ -15,9 +15,7 @@ int s4_renderer_init(unsigned int width, unsigned int height, const char *title,
   window->gl_data = NULL;
   window->width = width;
   window->height = height;
-  /* vvv idk if this is valid vvv */
   window->title = title;
-  /* ^^^      prob not        ^^^ */
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
