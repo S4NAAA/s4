@@ -9,6 +9,9 @@
 
 /*
  * TODO: Make a good example when the vertex object pool system is done
+ *       Implement a proper projection-view-model system
+ *       Implement a data orientet object system for visual objects
+ *       Implement a shader system and fix shader pool with the new shader impl
  */
 
 static float func(float x, float z) { return sinf(3.1 * (x * x + z * z)); }
