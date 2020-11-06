@@ -23,6 +23,7 @@ int main(void) {
   s4_vector3f up;
   s4_vector3f rot_axis;
   s4_vector3f pos;
+  s4_vector3f plot_pos;
   s4_vector3f center;
   s4_matrix4f projection;
   s4_matrix4f view;
@@ -33,7 +34,8 @@ int main(void) {
   s4_math_vector3_set(0.0f, 1.0f, 0.0f, up);
   s4_math_vector3_set(0.0f, 0.0f, -2.0f, center);
   s4_math_vector3_set(1.412f, 0.0f, 1.412f, rot_axis);
-  s4_math_vector3_set(0.0f, 0.0, 3.0f, pos);
+  s4_math_vector3_set(0.0f, 0.0f, 3.0f, pos);
+  s4_math_vector3_set(-0.5f, 0.7f, -0.5f, plot_pos);
 
   if (!s4_renderer_init(600, 600, "STAN LOONA", &window)) {
     printf("Couldn't initialize renderer\n");
@@ -50,7 +52,7 @@ int main(void) {
 
   s4_renderer_load_shader(1, 1, &program);
 
-  vo = s4_plot_test_add_vertex_object(-1, 1, -1, 1, 64, &func);
+  vo = s4_plot_test_add_vertex_object(0, 1, 0, 1, 64, &func);
 
   vo_cube = s4_vertex_object_pool_add(
       GL_STATIC_DRAW, GL_TRIANGLES, s_s4_cube_test_vertices,
@@ -92,13 +94,19 @@ int main(void) {
                        &model[0][0]);
 
     s4_vertex_object_pool_draw(vo);
+
+    s4_math_translate(plot_pos, model);
+    glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE,
+                       &model[0][0]);
+
     s4_vertex_object_pool_draw(vo_cube);
 
     glfwSwapBuffers(window.gl_data);
     glfwPollEvents();
   }
 
-  s4_vertex_object_pool_delete_all();
+  s4_vertex_object_pool_delete(vo);
+  s4_vertex_object_pool_delete(vo_cube);
   glDeleteProgram(program);
   glDeleteTextures(1, &texture);
   glfwTerminate();

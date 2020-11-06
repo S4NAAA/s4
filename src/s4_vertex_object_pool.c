@@ -8,7 +8,7 @@ unsigned int s4_vertex_object_pool_add(
     unsigned int draw_type, unsigned int mode, float *vertices,
     unsigned int vertices_size, unsigned int *indices,
     unsigned int indices_size, unsigned int *layout, unsigned int layout_size) {
-  unsigned int i, slice_size, offset, slice_char_size;
+  unsigned int i, slice_size, offset, slice_char_size, pos;
 
   struct s4_vertex_object_draw_info *draw_info;
   struct s4_vertex_object_buffer_info *buffer_info;
@@ -16,14 +16,10 @@ unsigned int s4_vertex_object_pool_add(
   assert(s_s4_global_current_vertex_object_pool_size <
          S4_VERTEX_OBJECT_POOL_MAX);
 
-  ++s_s4_global_current_vertex_object_pool_size;
+  pos = ++s_s4_global_current_vertex_object_pool_size;
 
-  draw_info = &s_s4_global_vertex_object_pool
-                   .draw_info[s_s4_global_current_vertex_object_pool_size - 1];
-
-  buffer_info =
-      &s_s4_global_vertex_object_pool
-           .buffer_info[s_s4_global_current_vertex_object_pool_size - 1];
+  draw_info = &s_s4_global_vertex_object_pool.draw_info[pos];
+  buffer_info = &s_s4_global_vertex_object_pool.buffer_info[pos];
 
   draw_info->indices_size = indices_size;
   draw_info->mode = mode;
@@ -43,7 +39,6 @@ unsigned int s4_vertex_object_pool_add(
 
   offset = 0;
   slice_char_size = slice_size * sizeof(float);
-
   for (i = 0; i < layout_size; ++i) {
     glVertexAttribPointer(i, layout[i], GL_FLOAT, GL_FALSE, slice_char_size,
                           (void *)(offset * sizeof(float)));
@@ -61,7 +56,7 @@ unsigned int s4_vertex_object_pool_add(
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-  return s_s4_global_current_vertex_object_pool_size - 1;
+  return pos;
 }
 
 /*
