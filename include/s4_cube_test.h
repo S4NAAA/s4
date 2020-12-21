@@ -1,8 +1,6 @@
 #ifndef S4_CUBE_TEST_H
 #define S4_CUBE_TEST_H
 
-static unsigned int s_s4_cube_test_layout[] = {3, 2};
-
 static float s_s4_cube_test_vertices[] = {
     /* clang-format off */
 /*   |   vertex position  |  texture  |

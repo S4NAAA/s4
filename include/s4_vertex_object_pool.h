@@ -16,13 +16,13 @@ struct s4_vertex_object_draw_info {
   unsigned int mode;
 };
 
-struct s4_vertex_object_buffer_info {
+struct s4_vertex_buffer_object_info {
   unsigned int vbo;
 };
 
 struct s4_vertex_object_pool {
   struct s4_vertex_object_draw_info draw_info[S4_VERTEX_OBJECT_POOL_MAX];
-  struct s4_vertex_object_buffer_info buffer_info[S4_VERTEX_OBJECT_POOL_MAX];
+  struct s4_vertex_buffer_object_info buffer_info[S4_VERTEX_OBJECT_POOL_MAX];
   /*
    * TODO: add deleting and adding capabilities
    *
@@ -32,13 +32,13 @@ struct s4_vertex_object_pool {
 
 /*
  * FIXME: layout is shader dependent, prob should just be an static array,
- *        or be implementent in a shader dependent way
+ *        or be implementent in a shader independent way
  */
 
 extern unsigned int s4_vertex_object_pool_add(
-    unsigned int draw_type, unsigned int mode, float *vertices,
-    unsigned int vertices_size, unsigned int *indeces,
-    unsigned int indices_size, unsigned int *layout, unsigned int layout_size);
+    unsigned int draw_type, unsigned int mode, unsigned int shader_type,
+    float *vertices, unsigned int vertices_size, unsigned int *indeces,
+    unsigned int indices_size);
 
 extern void s4_vertex_object_pool_update_vertices(float *vertices,
                                                   unsigned int vertices_size,

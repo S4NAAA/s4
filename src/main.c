@@ -3,8 +3,9 @@
 #include "s4_cube_test.h"
 #include "s4_input.h"
 #include "s4_math.h"
-#include "s4_plot_test.h"
 #include "s4_renderer.h"
+#include "s4_shader_pool.h"
+#include "s4_plot_test.h"
 #include "s4_vertex_object_pool.h"
 
 /*
@@ -14,12 +15,12 @@
  *       Implement a shader system and fix shader pool with the new shader impl
  */
 
-static float func(float x, float z) { return sinf(3.1 * (x * x + z * z)); }
+static float f(float x, float y) { return sinf(3.1 * (x * x + y * y)); }
 
 int main(void) {
   int step;
   unsigned int vo, vo_cube;
-  unsigned int program, texture;
+  unsigned int shader, texture;
   s4_vector3f up;
   s4_vector3f rot_axis;
   s4_vector3f pos;
@@ -47,32 +48,26 @@ int main(void) {
       S4_COMMON_DEFAULT_NEAR, S4_COMMON_DEFAULT_NEAR + 100, projection);
 
   s4_math_look(pos, center, up, view);
-
   s4_math_matrix4f_identity(model);
 
-  s4_renderer_load_shader(1, 1, &program);
+  shader = s4_shader_pool_load_shader(0);
 
-  vo = s4_plot_test_add_vertex_object(0, 1, 0, 1, 64, &func);
+  vo = s4_plot_test_add_vertex_object(0, 1, 0, 1, 64, f);
 
   vo_cube = s4_vertex_object_pool_add(
-      GL_STATIC_DRAW, GL_TRIANGLES, s_s4_cube_test_vertices,
+      GL_STATIC_DRAW, GL_TRIANGLES, 0, s_s4_cube_test_vertices,
       sizeof(s_s4_cube_test_vertices) / sizeof(s_s4_cube_test_vertices[0]),
       s_s4_cube_test_indices,
-      sizeof(s_s4_cube_test_indices) / sizeof(s_s4_cube_test_indices[0]),
-      s_s4_cube_test_layout,
-      sizeof(s_s4_cube_test_layout) / sizeof(s_s4_cube_test_layout[0]));
+      sizeof(s_s4_cube_test_indices) / sizeof(s_s4_cube_test_indices[0]));
 
   s4_renderer_load_texture("../../sprites/chaeyoung.png", &texture);
 
-  glUseProgram(program);
-  glUniformMatrix4fv(glGetUniformLocation(program, "projection"), 1, GL_FALSE,
-                     &projection[0][0]);
+  s4_shader_pool_use_shader(shader);
 
-  glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_FALSE,
-                     &view[0][0]);
-
-  glUniform1i(glGetUniformLocation(program, "tex"), 0);
-  glUniform2f(glGetUniformLocation(program, "tex_offset"), 0.0f, 0.0f);
+  s4_shader_pool_uniform_matrix4fv("projection", projection, shader);
+  s4_shader_pool_uniform_matrix4fv("view", view, shader);
+  s4_shader_pool_uniform1i("tex", 0, shader);
+  s4_shader_pool_uniform2f("tex_offset", 0.0f, 0.0f, shader);
 
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, texture);
@@ -89,16 +84,10 @@ int main(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     s4_math_make_rotate_matrix(step * 0.02f, rot_axis, model);
-
-    glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE,
-                       &model[0][0]);
-
-    s4_vertex_object_pool_draw(vo);
-
     s4_math_translate(plot_pos, model);
-    glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE,
-                       &model[0][0]);
-
+    s4_shader_pool_uniform_matrix4fv("model", model, shader);
+    s4_vertex_object_pool_draw(vo);
+    s4_shader_pool_uniform_matrix4fv("model", model, shader);
     s4_vertex_object_pool_draw(vo_cube);
 
     glfwSwapBuffers(window.gl_data);
@@ -107,7 +96,6 @@ int main(void) {
 
   s4_vertex_object_pool_delete(vo);
   s4_vertex_object_pool_delete(vo_cube);
-  glDeleteProgram(program);
   glDeleteTextures(1, &texture);
   glfwTerminate();
 

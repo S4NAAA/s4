@@ -1,22 +1,30 @@
 #include "s4_vertex_object_pool.h"
+#include "s4_shader_pool.h"
 
 static struct s4_vertex_object_pool s_s4_global_vertex_object_pool;
 
 static unsigned int s_s4_global_current_vertex_object_pool_size = 0;
 
 unsigned int s4_vertex_object_pool_add(
-    unsigned int draw_type, unsigned int mode, float *vertices,
-    unsigned int vertices_size, unsigned int *indices,
-    unsigned int indices_size, unsigned int *layout, unsigned int layout_size) {
-  unsigned int i, slice_size, offset, slice_char_size, pos;
+    unsigned int draw_type, unsigned int mode, unsigned int shader_type,
+    float *vertices, unsigned int vertices_size, unsigned int *indices,
+    unsigned int indices_size) {
+
+  unsigned int i, layout_size, slice_size, offset, slice_char_size, pos;
 
   struct s4_vertex_object_draw_info *draw_info;
-  struct s4_vertex_object_buffer_info *buffer_info;
+  struct s4_vertex_buffer_object_info *buffer_info;
+
+  const unsigned int * const layout = 
+    s4_shader_pool_get_shader_layout(shader_type);
 
   assert(s_s4_global_current_vertex_object_pool_size <
          S4_VERTEX_OBJECT_POOL_MAX);
 
-  pos = ++s_s4_global_current_vertex_object_pool_size;
+  layout_size = 
+    s4_shader_pool_get_shader_layout_size(shader_type);
+
+  pos = s_s4_global_current_vertex_object_pool_size++;
 
   draw_info = &s_s4_global_vertex_object_pool.draw_info[pos];
   buffer_info = &s_s4_global_vertex_object_pool.buffer_info[pos];
@@ -106,7 +114,7 @@ void s4_vertex_object_pool_delete(unsigned int i) {
   struct s4_vertex_object_draw_info *draw_info =
       &s_s4_global_vertex_object_pool.draw_info[i];
 
-  struct s4_vertex_object_buffer_info *buffer_info =
+  struct s4_vertex_buffer_object_info *buffer_info =
       &s_s4_global_vertex_object_pool.buffer_info[i];
 
   glDeleteVertexArrays(1, &draw_info->vao);

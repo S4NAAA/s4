@@ -52,82 +52,8 @@ failed_loading:
 }
 
 /*
- * TODO: Refactor for a per vertex object shader system
- *       Add uniform "setters" when the shader system is done
- */
-
-void s4_renderer_load_shader(unsigned int vertex_shader,
-                             unsigned int fragment_shader,
-                             unsigned int *program) {
-  int success;
-  char log[512];
-  const char *code;
-  unsigned int vertex, fragment;
-
-  success = 0;
-
-  switch (vertex_shader) {
-    case S4_SHADERS_VERTEX_1:
-      code = s_s4_shaders_vertex_code_1;
-      break;
-    default:
-      goto fail_vertex;
-  }
-
-  vertex = glCreateShader(GL_VERTEX_SHADER);
-  glShaderSource(vertex, 1, &code, NULL);
-  glCompileShader(vertex);
-  glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-
-  if (!success) {
-    glGetShaderInfoLog(vertex, 512, NULL, &log[0]);
-    printf("ERROR::VERTEX::SHADER::COMPILATION_FAILED: %s\n", log);
-    goto fail_vertex;
-  }
-
-  switch (fragment_shader) {
-    case S4_SHADERS_FRAGMENT_1:
-      code = s_s4_shader_fragment_code_1;
-      break;
-    default:
-      goto fail_fragment;
-  }
-
-  fragment = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(fragment, 1, &code, NULL);
-  glCompileShader(fragment);
-  glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-
-  if (!success) {
-    glGetShaderInfoLog(fragment, 512, NULL, &log[0]);
-    printf("ERROR::FRAGMENT::SHADER::COMPILATION_FAILED: %s\n", log);
-    goto fail_fragment;
-  }
-
-  *program = glCreateProgram();
-  glAttachShader(*program, vertex);
-  glAttachShader(*program, fragment);
-  glLinkProgram(*program);
-  glGetProgramiv(*program, GL_LINK_STATUS, &success);
-
-  if (!success) {
-    glGetProgramInfoLog(*program, 512, NULL, &log[0]);
-    printf("ERROR::SHADER::LINKING_FAILED: %s\n", log);
-    goto cleanup;
-  }
-
-cleanup:
-  glDeleteShader(fragment);
-fail_fragment:
-  glDeleteShader(vertex);
-fail_vertex:
-  return;
-}
-
-/*
  * TODO: Refactor method for the vertex object pool system
  */
-
 void s4_renderer_load_texture(const char *path, unsigned int *id) {
   unsigned int error, width, height;
   unsigned char *image;

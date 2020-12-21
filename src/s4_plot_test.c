@@ -9,8 +9,6 @@ unsigned int s4_plot_test_add_vertex_object(float x0, float x1, float z0,
   float y0, y1, dx, dz, dif_x, dif_z, dif_y, *vertices;
   unsigned int vertices_size, indices_size, i, j, vo, *indices;
 
-  unsigned int layout[] = {3, 2};
-
   vertices_size = count * count * 5;
   indices_size = (count - 1) * (count - 1) * 6;
 
@@ -65,9 +63,8 @@ unsigned int s4_plot_test_add_vertex_object(float x0, float x1, float z0,
     }
   }
 
-  vo = s4_vertex_object_pool_add(GL_STATIC_DRAW, GL_TRIANGLES, vertices,
-                                 vertices_size, indices, indices_size, layout,
-                                 2);
+  vo = s4_vertex_object_pool_add(GL_STATIC_DRAW, GL_TRIANGLES, 0, vertices,
+                                 vertices_size, indices, indices_size);
 
   free(vertices);
   free(indices);
